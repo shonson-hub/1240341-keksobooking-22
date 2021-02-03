@@ -14,23 +14,23 @@ let randomNumber = function (firstNumber, lastNumber) {
   if (firstNumber < lastNumber) {
     rand = firstNumber - 0.5 + Math.random() * (lastNumber - firstNumber + 1);
   } else {
-    console.log('Первое слово дороже второго');
+    return ('Первое слово дороже второго');
   }
   return Math.round(rand);
 }
 
-console.log(randomNumber(115, 15));
+alert(randomNumber(115, 15));
 
 let randomPartNumber = function (firstNumber, lastNumber,partNumber) {
   let rand;
   if (firstNumber < lastNumber) {
     rand = (firstNumber - 0.5 + Math.random() * (lastNumber - firstNumber + 1)) * partNumber;
   } else {
-    console.log('Первое слово дороже второго');
+    return('Первое слово дороже второго');
   }
   return rand;
 }
 
-console.log(randomPartNumber(5, 15, 1000));
+alert(randomPartNumber(5, 15, 1000));
 
 // Источник https://learn.javascript.ru/task/random-int-min-max
