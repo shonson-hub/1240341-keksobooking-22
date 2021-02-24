@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Алексей Бекренев](https://up.htmlacademy.ru/javascript/22/user/1240341).
-* Наставник: `Неизвестно`.
+* Наставник: [Влад Кривокора](https://htmlacademy.ru/profile/krivokora).
 
 ---
 
