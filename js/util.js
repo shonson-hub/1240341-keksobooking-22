@@ -1,3 +1,5 @@
+// функция случайного числа
+
 const randomNumber = function (firstNumber, lastNumber) {
   let rand;
   if (firstNumber < lastNumber) {
@@ -8,7 +10,9 @@ const randomNumber = function (firstNumber, lastNumber) {
   return Math.round(rand);
 };
 
-// alert(randomNumber(11, 15));
+// alert(randomNumber(11, 15))
+
+// Функция случайного числа с точкой
 
 const randomPartNumber = function (firstNumber, lastNumber, partNumber) {
   let rand;
@@ -19,6 +23,8 @@ const randomPartNumber = function (firstNumber, lastNumber, partNumber) {
   }
   return rand;
 };
+
+// Функция случайной длинны
 
 const getRandomLength = (array) => {
   const randLen = Array.from(array);
