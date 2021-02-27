@@ -2,9 +2,9 @@ import {similarObjects} from './data.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const createObjects = similarObjects();
+const createObjects = similarObjects;
 
-createObjects.forEach((offer) => {
+createObjects((offer) => {
   const newElement = cardTemplate.cloneNode(true);
   newElement.querySelector('.popup__title').textContent = offer.title;
   newElement.querySelector('.popup__text--address').textContent = offer.address;
