@@ -2,7 +2,7 @@ import {randomNumber, randomPartNumber, getRandomLength} from './util.js';
 // import {avatar, TYPE, TIME, FEATURES, PHOTOS, TITLE, similarObjectsNear} from '.dialog.js';
 
 const avatar = ['01', '02', '03', '04', '05', '06', '07', '08'];
-const TYPE = ['palace', 'flat', 'house', 'bungalow'];
+const TYPE = ['flat', 'house', 'bungalow', 'palace'];
 const TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -11,15 +11,18 @@ const similarObjectsNear = 10;
 
 const adObjects = () => {
   const timeCheckInOut = randomNumber(0, TIME.length - 1);
+  const getRandonItem = (element) => {
+    return elements[randomNumber(0, elements.length - 1)]
+  }
 
   return {
     author: {
       avatar: 'img/avatars/user' + avatar[randomNumber(0, avatar.length - 1)] + '.png',
     },
     offer: {
-      title: TITLE[randomNumber(0, TITLE.length - 1)],
+      title: getRandomItem(TITLE),
       price: randomNumber(10, 65),
-      type: TYPE[randomNumber(0, TYPE.length - 1)],
+      type: getRandomItem(TYPE),
       room: randomNumber(1, 4),
       guests: randomNumber(1, 6),
       checkin: TIME[timeCheckInOut],
@@ -35,4 +38,7 @@ const adObjects = () => {
   };
 };
 
-const similarObjects = new Array(similarObjectsNear).fill(null).map(() => adObjects());
+const similarObjects = () => new Array(similarObjectsNear).fill(null).map(() => adObjects());
+
+export{similarObjects};
+export{avatar, TYPE, TIME, FEATURES, PHOTOS, TITLE, similarObjectsNear};
