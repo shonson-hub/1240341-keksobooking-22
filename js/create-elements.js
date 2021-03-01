@@ -29,6 +29,5 @@ createObjects.forEach((objects) => {
   return newElement;
 });
 
-console.log(createObjects);
 
 mapCanvas.appendChild(similarObjectsList);

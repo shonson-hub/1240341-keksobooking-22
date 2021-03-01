@@ -10,7 +10,7 @@ const similarObjectsNear = 10;
 const TYPES = {flat: 'Квартира', house: 'Дом', bungalow: 'Бунгало', palace: 'Дворец'};
 
 const getRandomItem = (elements) => {
-    return elements[randomNumber(0, elements.length - 1)]
+  return elements[randomNumber(0, elements.length - 1)]
 }
 
 const adObjects = () => {

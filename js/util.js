@@ -43,12 +43,12 @@ const createPhotoElement = function (Array, element) {
 
   if (Array.length) {
     Array.forEach((item) => {
-        const newPhoto = document.createElement('img');
-        newPhoto.classList.add('popup-photo');
-        newPhoto.src = item;
-        newPhoto.alt = 'Фотография жилья';
-        photoList.appendChild(newPhoto);
-      });
+      const newPhoto = document.createElement('img');
+      newPhoto.classList.add('popup-photo');
+      newPhoto.src = item;
+      newPhoto.alt = 'Фотография жилья';
+      photoList.appendChild(newPhoto);
+    });
   }
 
   else{
@@ -64,10 +64,10 @@ const generateFeaturesElement = function (Array, element) {
   const featureList = element.querySelector('.popup__features');
   while (featureList.firstChild) {
     featureList.removeChild(featureList.firstChild);
-  };
+  }
 
   if (Array.length) {
-    Array.forEach((item) => {
+    Array.forEach(() => {
       const featureItem = document.createElement('li');
       featureItem.className = 'popup__feature popup__feature--${item}';
       featureList.appendChild(featureItem);
