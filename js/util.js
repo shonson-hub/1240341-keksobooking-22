@@ -21,7 +21,7 @@ const randomPartNumber = function (firstNumber, lastNumber, partNumber) {
   } else {
     return('Первое слово дороже второго');
   }
-  return rand;
+  return rand.toFixed(5);
 };
 
 // Функция случайной длинны
@@ -42,4 +42,12 @@ const adDisable = function (parent) {
   }
 };
 
-export {randomNumber, randomPartNumber, getRandomLength, adDisable};
+const adEnable = function (parent) {
+  parent.classList.remove('ad-form--disabled');
+
+  for (let child of parent) {
+    child.disabled = false;
+  }
+};
+
+export {randomNumber, randomPartNumber, getRandomLength, adDisable, adEnable};

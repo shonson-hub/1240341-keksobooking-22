@@ -36,4 +36,5 @@ const adObjects = () => {
 };
 
 const similarObjects = new Array(similarObjectsNear).fill(null).map(() => adObjects());
+
 export{similarObjects};
