@@ -26,11 +26,20 @@ const randomPartNumber = function (firstNumber, lastNumber, partNumber) {
 
 // Функция случайной длинны
 
-const getRandomLength = (array) => {
+const getRandomLength = function (array) {
   const randLen = Array.from(array);
   randLen.length = randomNumber(1, array.length);
   return randLen;
 };
 
-export {randomNumber, randomPartNumber, getRandomLength};
+// Функция добавления класса disable
 
+const adDisable = function (parent) {
+  parent.classList.add('ad-form--disabled');
+
+  for (let child of parent) {
+    child.disabled = true;
+  }
+};
+
+export {randomNumber, randomPartNumber, getRandomLength, adDisable};
