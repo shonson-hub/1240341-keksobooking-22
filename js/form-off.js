@@ -1,5 +1,5 @@
-import {adDisable} from './util.js';
+// import {adDisable} from './util.js';
 
-const adForm = document.querySelector('.ad-form');
+// const adForm = document.querySelector('.ad-form');
 
-adDisable(adForm);
+// adDisable(adForm);
