@@ -32,5 +32,55 @@ const getRandomLength = (array) => {
   return randLen;
 };
 
-export {randomNumber, randomPartNumber, getRandomLength};
 
+// для photo и features. нужно удалить все li из  фото, создать функцию которая создаёт
+// li элементы c классом popup__photo, внести картинку alt,
+//  и в корень selector-photos добавлять li элементы, количество Li элементов равно количеству фотографий
+
+const createPhotoElement = function (Array, element) {
+  const photoList = element.querySelector('.popup__photos');
+  photoList.innerHTML = '';
+
+  if (Array.length) {
+    Array.forEach((item) => {
+        const newPhoto = document.createElement('img');
+        newPhoto.classList.add('popup-photo');
+        newPhoto.src = item;
+        newPhoto.alt = 'Фотография жилья';
+        photoList.appendChild(newPhoto);
+      });
+  }
+
+  else{
+    photoList.classList.add('hidden');
+  }
+
+  return photoList;
+
+};
+
+const generateFeaturesElement = function (Array, element) {
+
+  const featureList = element.querySelector('.popup__features');
+  while (featureList.firstChild) {
+    featureList.removeChild(featureList.firstChild);
+  };
+
+  if (Array.length) {
+    Array.forEach((item) => {
+      const featureItem = document.createElement('li');
+      featureItem.className = 'popup__feature popup__feature--${item}';
+      featureList.appendChild(featureItem);
+
+    });
+  }
+
+  else {
+    featureList.classList.add('hidden')
+  }
+
+  return featureList;
+
+};
+
+export {randomNumber, randomPartNumber, getRandomLength, createPhotoElement,generateFeaturesElement};
