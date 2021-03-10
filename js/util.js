@@ -95,11 +95,12 @@ const generateFeaturesElement = function (Array, element) {
   return featureList;
 };
 
-const hideBlocks = function (element) {
-  if (element === null) {
-    element.classList.add('hidden');
-  } else {
-    element.classList.remove('hidden');
+const hideBlocks = function (element, block) {
+  if (element.length === null) {
+    block.classList.add('hidden');
+  }
+  else {
+    block.classList.remove('hidden');
   }
 };
 

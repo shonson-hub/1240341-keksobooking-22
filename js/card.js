@@ -1,7 +1,7 @@
 import {createPhotoElement, generateFeaturesElement, hideBlocks} from './util.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const anyBlock = cardTemplate.querySelector('*');
+const anyBlock = cardTemplate.querySelector('p');
 
 const createCard = ({offer,author}) => {
   const newElement = cardTemplate.cloneNode(true);
@@ -15,11 +15,11 @@ const createCard = ({offer,author}) => {
   newElement.querySelector('.popup__avatar').src = author.avatar;
   generateFeaturesElement(offer.features, newElement);
   createPhotoElement(offer.photos, newElement);
+  hideBlocks(newElement, anyBlock);
 
 
   return newElement;
 };
 
-hideBlocks(anyBlock);
 
 export {createCard};
