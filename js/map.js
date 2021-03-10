@@ -1,4 +1,6 @@
-// import { createObjects } from './create-elements.js';
+import {similarObjects} from './data.js';
+import {createCard} from './card.js';
+
 
 const MAIN_CORDINATES = {
   lat: 35.6895000,
@@ -27,7 +29,7 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: MAIN_CORDINATES.lan,
+    lat: MAIN_CORDINATES.lat,
     lng: MAIN_CORDINATES.lng,
   },
   {
@@ -35,13 +37,20 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
-
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('moveend', (evt) => {
-});
+const address = document.querySelector('#address');
 
-// mainPinMarker.remove();
+const getMainMarker = function () {
+  mainPinMarker.on('moveend', (evt) => {
+    const getCoord = evt.target.getLatLng();
+    // address.value = getCoord;
+    address.value = getCoord.lat.toFixed(5) + ', ' + getCoord.lng.toFixed(5);
+  });
+};
+
+getMainMarker();
+
 
 const ponyPinIcon = L.icon({
   iconUrl: './img/pin.svg',
@@ -49,20 +58,22 @@ const ponyPinIcon = L.icon({
   iconAnchor: [20,40],
 });
 
-objects.forEach(({lat, lng}) => {
+similarObjects.forEach(({location, offer, author}) => {
+
   const marker = L.marker(
     {
-      lat,
-      lng,
+      lat: location.X,
+      lng: location.Y,
     },
     {
-      ponyPinIcon,
+      icon: ponyPinIcon,
     },
   );
 
   marker
     .addTo(map)
     .bindPopup(
+      createCard({offer, author}),
       {
         keepInView: true,
       },

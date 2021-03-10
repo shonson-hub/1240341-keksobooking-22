@@ -1,6 +1,6 @@
 // функция случайного числа
 
-const randomNumber = function (firstNumber, lastNumber) {
+const getRandomNumber = function (firstNumber, lastNumber) {
   let rand;
   if (firstNumber < lastNumber) {
     rand = firstNumber - 0.5 + Math.random() * (lastNumber - firstNumber + 1);
@@ -10,11 +10,10 @@ const randomNumber = function (firstNumber, lastNumber) {
   return Math.round(rand);
 };
 
-// alert(randomNumber(11, 15))
 
 // Функция случайного числа с точкой
 
-const randomPartNumber = function (firstNumber, lastNumber, partNumber) {
+const getRandomPartNumber = function (firstNumber, lastNumber, partNumber) {
   let rand;
   if (firstNumber < lastNumber) {
     rand = (firstNumber - 0.5 + Math.random() * (lastNumber - firstNumber + 1)) * partNumber;
@@ -28,13 +27,13 @@ const randomPartNumber = function (firstNumber, lastNumber, partNumber) {
 
 const getRandomLength = function (array) {
   const randLen = Array.from(array);
-  randLen.length = randomNumber(1, array.length);
+  randLen.length = getRandomNumber(1, array.length);
   return randLen;
 };
 
 // Функция добавления класса disable
 
-const adDisable = function (parent) {
+const addDisable = function (parent) {
   parent.classList.add('ad-form--disabled');
 
   for (let child of parent) {
@@ -42,7 +41,7 @@ const adDisable = function (parent) {
   }
 };
 
-const adEnable = function (parent) {
+const addEnable = function (parent) {
   parent.classList.remove('ad-form--disabled');
 
   for (let child of parent) {
@@ -50,4 +49,59 @@ const adEnable = function (parent) {
   }
 };
 
-export {randomNumber, randomPartNumber, getRandomLength, adEnable, adDisable};
+const createPhotoElement = function (Array, element) {
+  const photoList = element.querySelector('.popup__photos');
+  photoList.innerHTML = '';
+
+  if (Array.length) {
+    Array.forEach((item) => {
+      const newPhoto = document.createElement('img');
+      newPhoto.setAttribute('height', '40');
+      newPhoto.setAttribute('width', '45');
+      newPhoto.classList.add('popup-photo');
+      newPhoto.src = item;
+      newPhoto.alt = 'Фотография жилья';
+      photoList.appendChild(newPhoto);
+    });
+  }
+
+  else{
+    photoList.classList.add('hidden');
+  }
+
+  return photoList;
+
+};
+
+const generateFeaturesElement = function (Array, element) {
+
+  const featureList = element.querySelector('.popup__features');
+  while (featureList.firstChild) {
+    featureList.removeChild(featureList.firstChild);
+  }
+
+  if (Array.length) {
+    Array.forEach((item) => {
+      const featureItem = document.createElement('li');
+      featureItem.className = 'popup__feature popup__feature--' + item;
+      featureList.appendChild(featureItem);
+    });
+  }
+
+  else {
+    featureList.classList.add('hidden')
+  }
+
+  return featureList;
+};
+
+const hideBlocks = function (element) {
+  if (element === null) {
+    element.classList.add('hidden');
+  } else {
+    element.classList.remove('hidden');
+  }
+};
+
+
+export {getRandomNumber, getRandomPartNumber, getRandomLength, addEnable, addDisable, createPhotoElement, generateFeaturesElement, hideBlocks};

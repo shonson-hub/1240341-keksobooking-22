@@ -1,5 +1,5 @@
-import {adDisable} from './util.js';
+import { addDisable } from './util.js';
 
 const mapFilters = document.querySelector('.map__filters');
 
-adDisable(mapFilters);
+addDisable(mapFilters);
