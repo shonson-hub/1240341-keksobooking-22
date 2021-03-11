@@ -1,4 +1,4 @@
-import { addDisable } from './util.js';
+import {addDisable} from './util.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -16,34 +16,63 @@ const guests = adForm.querySelector('#capacity');
 const address = adForm.querySelector('#address');
 
 
-
-// const checkRooms = function() {
-//   const validate = {
-//     1: ['1'],
-//     2: ['1', '2'],
-//     3: ['1', '2', '3'],
-//     0: ['0'],
-//   };
-
-//   const roomsValid = new RegExp(validate[rooms][0], '');
-
-//   if (roomsValid.test(guests.value)) {
-//     guests.setCustomValidity('');
-//   }
-//   else {
-//     guests.setCustomValidity(validate[rooms][1]);
-//   }
+// const validateSeats = {
+//   1: ['1'],
+//   2: ['1','2'],
+//   3: ['1', '2', '3'],
+//   0: ['0'],
 // };
 
-// checkRooms();
+const validateSeats = ['1', '2', '3', '0'];
 
-// const validateRooms = function () {
-
-
+// const checkRooms = function () {
+//   rooms.addEventListener('click',  function () {
+//     if (this.value === '1') {
+//       guests.value = validateSeats['0'];
+//     }
+//     else {
+//       guests.setCustomValidity('Неверное число комнат');
+//     }
+//     if (this.value === '2') {
+//       guests.value = validateSeats['0', '1'];
+//     } else {
+//       guests.setCustomValidity('Неверное число комнат');
+//     }
+//     if (this.value === '3') {
+//       guests.value = validateSeats['0', '1', '2'];
+//     }  else {
+//       guests.setCustomValidity('Неверное число комнат');
+//     }
+//     if (this.value === '100') {
+//       guests.value = validateSeats['3'];
+//     } else {
+//       guests.setCustomValidity('Неверное число комнат');
+//     }
+//     rooms.reportValidity('');
+//   });
 // };
 
-// validateRooms();
 
+checkRooms();
+
+type.addEventListener('change', function () {
+  if (this.value === 'bungalow') {
+    price.placeholder = '0';
+    price.min = 0;
+  }
+  else if (this.value === 'flat') {
+    price.placeholder = '1000';
+    price.min = 1000;
+  }
+  else if (this.value === 'house') {
+    price.placeholder = '5000';
+    price.min = 5000;
+  }
+  else if (this.value === 'palace') {
+    price.placeholder = '10000';
+    price.min = 10000;
+  }
+});
 
 
 // Дисаблим форму импортом из утиля
@@ -82,44 +111,22 @@ price.addEventListener('input', function () {
 
 // Тип => цена
 
-type.addEventListener('change', function () {
-  if (this.value === 'bungalow') {
-    price.placeholder = '0';
-    price.min = 0;
-  }
-  else if (this.value === 'flat') {
-    price.placeholder = '1000';
-    price.min = 1000;
-  }
-  else if (this.value === 'house') {
-    price.placeholder = '5000';
-    price.min = 5000;
-  }
-  else if (this.value === 'palace') {
-    price.placeholder = '10000';
-    price.min = 10000;
-  }
-});
 
 
-const validateRooms = function () {
-  rooms.addEventListener('click', () => guests.value = rooms.value);
-  if (rooms.value === '100') {
-    guests.value = '0';
-  }
-  // else {}
+// const validateRooms = function () {
+//   rooms.addEventListener('click', () => guests.value = rooms.value);
+//   if (rooms.value === '100') {
+//     guests.value = '0';
+//   }
+//   // else {}
 
-  guests.addEventListener('click', () => rooms.value = guests.value);
-  if (guests.value === '0') {
-    rooms.value = '100';
-  }
-};
+//   guests.addEventListener('click', () => rooms.value = guests.value);
+//   if (guests.value === '0') {
+//     rooms.value = '100';
+//   }
+// };
 
-
-
-
-
-validateRooms();
+// validateRooms();
 
 // время В => время ИЗ
 
