@@ -23,7 +23,7 @@ const address = adForm.querySelector('#address');
 //   0: ['0'],
 // };
 
-const validateSeats = ['1', '2', '3', '0'];
+// const validateSeats = ['1', '2', '3', '0'];
 
 // const checkRooms = function () {
 //   rooms.addEventListener('click',  function () {
@@ -53,7 +53,7 @@ const validateSeats = ['1', '2', '3', '0'];
 // };
 
 
-checkRooms();
+// checkRooms();
 
 type.addEventListener('change', function () {
   if (this.value === 'bungalow') {
