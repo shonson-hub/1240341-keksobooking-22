@@ -1,5 +1,3 @@
-import {addDisable} from './util.js';
-
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
@@ -16,44 +14,52 @@ const guests = adForm.querySelector('#capacity');
 const address = adForm.querySelector('#address');
 
 
-// const validateSeats = {
-//   1: ['1'],
-//   2: ['1','2'],
-//   3: ['1', '2', '3'],
-//   0: ['0'],
-// };
+const formDisable = function () {
+  adForm.classList.add('ad-form--disabled');
 
-// const validateSeats = ['1', '2', '3', '0'];
+  for (let fieldset of adForm) {
+    fieldset.disabled = true;
+  }
+};
 
-// const checkRooms = function () {
-//   rooms.addEventListener('click',  function () {
-//     if (this.value === '1') {
-//       guests.value = validateSeats['0'];
-//     }
-//     else {
-//       guests.setCustomValidity('Неверное число комнат');
-//     }
-//     if (this.value === '2') {
-//       guests.value = validateSeats['0', '1'];
-//     } else {
-//       guests.setCustomValidity('Неверное число комнат');
-//     }
-//     if (this.value === '3') {
-//       guests.value = validateSeats['0', '1', '2'];
-//     }  else {
-//       guests.setCustomValidity('Неверное число комнат');
-//     }
-//     if (this.value === '100') {
-//       guests.value = validateSeats['3'];
-//     } else {
-//       guests.setCustomValidity('Неверное число комнат');
-//     }
-//     rooms.reportValidity('');
-//   });
-// };
+const formEnable = function () {
+  adForm.classList.remove('ad-form--disabled');
+
+  for (let fieldset of adForm) {
+    fieldset.disabled = false;
+  }
+};
+
+formDisable();
+
+rooms.addEventListener('change', () => {
+  if (rooms.value === '1') {
+    for (let i = 0; i < guests.children.length; i++) {
+      guests.children[i].setAttribute('disabled', 'disabled');
+    }
+    guests.children[guests.children.length - 2].removeAttribute('disabled');
+    guests.children[guests.children.length - 2].setAttribute('selected', 'selected');
+  } else if (rooms.value === '100') {
+    for (let i = 0; i < guests.children.length; i++) {
+      guests.children[i].setAttribute('disabled', 'disabled');
+    }
+    guests.children[guests.children.length - 1].removeAttribute('disabled');
+    guests.children[guests.children.length - 1].setAttribute('selected', 'selected');
+  } else if (rooms.value === '2') {
+    for (let i = 1; i <= rooms.value; i++) {
+      guests.children[i].removeAttribute('disabled');
+    }
+    guests.children[0].setAttribute('disabled', 'disabled');
+    guests.children[guests.children.length - 1].setAttribute('disabled', 'disabled');
+  } else {
+    for (let i = 0; i < rooms.value; i++) {
+      guests.children[i].removeAttribute('disabled');
+    }
+    guests.children[guests.children.length - 1].setAttribute('disabled', 'disabled');
+  }
+});
 
 
-// checkRooms();
 
 type.addEventListener('change', function () {
   if (this.value === 'bungalow') {
@@ -77,7 +83,6 @@ type.addEventListener('change', function () {
 
 // Дисаблим форму импортом из утиля
 
-// addDisable(adForm);
 
 // Валидируем заголовок
 
@@ -112,29 +117,15 @@ price.addEventListener('input', function () {
 // Тип => цена
 
 
-
-// const validateRooms = function () {
-//   rooms.addEventListener('click', () => guests.value = rooms.value);
-//   if (rooms.value === '100') {
-//     guests.value = '0';
-//   }
-//   // else {}
-
-//   guests.addEventListener('click', () => rooms.value = guests.value);
-//   if (guests.value === '0') {
-//     rooms.value = '100';
-//   }
-// };
-
-// validateRooms();
-
 // время В => время ИЗ
 
 const validateTime = () => {
-  timeIn.addEventListener('click', () => timeOut.value = timeIn.value);
-  timeOut.addEventListener('click', () => timeIn.value = timeOut.value);
+  timeIn.addEventListener('change', () => timeOut.value = timeIn.value);
+  timeOut.addEventListener('change', () => timeIn.value = timeOut.value);
 };
 
 validateTime();
 
 address.readOnly = true;
+
+export {formDisable, formEnable};
