@@ -32,34 +32,42 @@ const formEnable = function () {
 
 formDisable();
 
-rooms.addEventListener('change', () => {
-  if (rooms.value === '1') {
-    for (let i = 0; i < guests.children.length; i++) {
-      guests.children[i].setAttribute('disabled', 'disabled');
-    }
-    guests.children[guests.children.length - 2].removeAttribute('disabled');
-    guests.children[guests.children.length - 2].setAttribute('selected', 'selected');
-  } else if (rooms.value === '100') {
-    for (let i = 0; i < guests.children.length; i++) {
-      guests.children[i].setAttribute('disabled', 'disabled');
-    }
-    guests.children[guests.children.length - 1].removeAttribute('disabled');
-    guests.children[guests.children.length - 1].setAttribute('selected', 'selected');
-  } else if (rooms.value === '2') {
-    for (let i = 1; i <= rooms.value; i++) {
-      guests.children[i].removeAttribute('disabled');
-    }
-    guests.children[0].setAttribute('disabled', 'disabled');
-    guests.children[guests.children.length - 1].setAttribute('disabled', 'disabled');
-  } else {
-    for (let i = 0; i < rooms.value; i++) {
-      guests.children[i].removeAttribute('disabled');
-    }
-    guests.children[guests.children.length - 1].setAttribute('disabled', 'disabled');
-  }
-});
+const validateSeats = ['1', '2', '3', '0'];
 
 
+const checkSeats = () => {
+  rooms.addEventListener('change', () => {
+    if (rooms.value === '1') {
+      guests.value = validateSeats[0];
+      for (let i = 0; i < guests.children.length; i++) {
+        guests.children[i].setAttribute('disabled', 'disabled');
+      }
+      guests.children[guests.children.length - 2].removeAttribute('disabled');
+      guests.children[guests.children.length - 2].setAttribute('selected', 'selected');
+    } else if (rooms.value === '100') {
+      for (let i = 0; i < guests.children.length; i++) {
+        guests.children[i].setAttribute('disabled', 'disabled');
+      }
+      guests.children[guests.children.length - 1].removeAttribute('disabled');
+      guests.children[guests.children.length - 1].setAttribute('selected', 'selected');
+    } else if (rooms.value === '2') {
+      for (let i = 1; i <= rooms.value; i++) {
+        guests.children[i].removeAttribute('disabled');
+      }
+      guests.children[0].setAttribute('disabled', 'disabled');
+      guests.children[guests.children.length - 1].setAttribute('disabled', 'disabled');
+    } else {
+      for (let i = 0; i < rooms.value; i++) {
+        guests.children[i].removeAttribute('disabled');
+      }
+      guests.children[guests.children.length - 1].setAttribute('disabled', 'disabled');
+    }
+  });
+
+  return rooms;
+};
+
+checkSeats();
 
 type.addEventListener('change', function () {
   if (this.value === 'bungalow') {
@@ -128,4 +136,4 @@ validateTime();
 
 address.readOnly = true;
 
-export {formDisable, formEnable};
+export {formDisable, formEnable, checkSeats};

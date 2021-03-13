@@ -1,6 +1,6 @@
 import {similarObjects} from './data.js';
 import {createCard} from './card.js';
-import {formEnable} from './form.js';
+import {formEnable, checkSeats} from './form.js';
 
 
 const MAIN_CORDINATES = {
@@ -13,6 +13,7 @@ const ZOOM = 10;
 const map = L.map('map-canvas')
   .on('load', () => {
     formEnable();
+    checkSeats();
   })
   .setView(MAIN_CORDINATES, ZOOM);
 
