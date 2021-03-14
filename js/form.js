@@ -1,3 +1,6 @@
+import { sendData } from './api.js';
+import {showError} from './show-error-block.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
@@ -136,4 +139,18 @@ validateTime();
 
 address.readOnly = true;
 
-export {formDisable, formEnable, checkSeats};
+
+const setFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => onSuccess(),
+      () => showError(),
+      new FormData(evt.target),
+    )
+  });
+};
+
+
+export {formDisable, formEnable, checkSeats, setFormSubmit};

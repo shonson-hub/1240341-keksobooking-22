@@ -1,6 +1,6 @@
-import {similarObjects} from './data.js';
-import {createCard} from './card.js';
-import {formEnable, checkSeats} from './form.js';
+import {createCard} from './another-card.js';
+import {formEnable} from './form.js';
+import {getData} from './api.js';
 
 
 const MAIN_CORDINATES = {
@@ -13,7 +13,6 @@ const ZOOM = 10;
 const map = L.map('map-canvas')
   .on('load', () => {
     formEnable();
-    checkSeats();
   })
   .setView(MAIN_CORDINATES, ZOOM);
 
@@ -47,7 +46,6 @@ const address = document.querySelector('#address');
 const getMainMarker = function () {
   mainPinMarker.on('moveend', (evt) => {
     const getCoord = evt.target.getLatLng();
-    // address.value = getCoord;
     address.value = getCoord.lat.toFixed(5) + ', ' + getCoord.lng.toFixed(5);
   });
 };
@@ -61,24 +59,28 @@ const ponyPinIcon = L.icon({
   iconAnchor: [20,40],
 });
 
-similarObjects.forEach(({location, offer, author}) => {
 
-  const marker = L.marker(
-    {
-      lat: location.X,
-      lng: location.Y,
-    },
-    {
-      icon: ponyPinIcon,
-    },
-  );
 
-  marker
-    .addTo(map)
-    .bindPopup(
-      createCard({offer, author}),
+getData((cards) => {
+  cards.forEach((card) => {
+
+    const marker = L.marker(
       {
-        keepInView: true,
+        lat: card.location.lat,
+        lng: card.location.lng,
       },
-    );
+      {
+        icon: ponyPinIcon,
+      },
+    )
+
+    marker
+      .addTo(map)
+      .bindPopup(
+        createCard(cards),
+        {
+          keepInView: true,
+        },
+      );
+  })
 });
