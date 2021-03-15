@@ -78,7 +78,7 @@ getData((cards) => {
     marker
       .addTo(map)
       .bindPopup(
-        createCard(cards),
+        createCard(cards.offer),
         {
           keepInView: true,
         },
