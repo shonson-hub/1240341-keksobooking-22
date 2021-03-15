@@ -1,6 +1,3 @@
-// const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-
 const createPhotoElement = function (Array, element) {
   const photoList = element.querySelector('.popup__photos');
   photoList.innerHTML = '';

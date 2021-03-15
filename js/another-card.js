@@ -7,7 +7,6 @@ const hideEmpty = (field, element) => field ? element.textContent = field : elem
 
 
 const createCard = (createSimilar) => {
-  // const similarListFragment = document.createDocumentFragment();
 
   createSimilar.forEach(({offer,author}) => {
     const newElement = cardTemplate.cloneNode(true);
@@ -50,7 +49,6 @@ const createCard = (createSimilar) => {
 
     generateFeaturesElement(offer.features, newElement);
     createPhotoElement(offer.photos, newElement);
-    // similarListFragment.appendchild(newElement);
 
 
     return newElement;

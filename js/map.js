@@ -62,6 +62,7 @@ const ponyPinIcon = L.icon({
 
 
 getData((cards) => {
+  console.log(cards);
   cards.forEach((card) => {
 
     const marker = L.marker(
