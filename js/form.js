@@ -1,5 +1,6 @@
 import { sendData } from './api.js';
 import {showError} from './show-error-block.js';
+import {resetMap} from './map.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -15,7 +16,7 @@ const timeOut = adForm.querySelector('#timeout');
 const rooms = adForm.querySelector('#room_number');
 const guests = adForm.querySelector('#capacity');
 const address = adForm.querySelector('#address');
-
+const resetButton = document.querySelector('.ad-form__reset');
 
 const formDisable = function () {
   adForm.classList.add('ad-form--disabled');
@@ -152,5 +153,14 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
+setFormSubmit();
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  resetMap();
+});
+
+// const successPopup
 
 export {formDisable, formEnable, checkSeats, setFormSubmit};
