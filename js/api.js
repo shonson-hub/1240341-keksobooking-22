@@ -4,18 +4,17 @@ const getData = (onSuccess) => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       onSuccess(json);
     })
-    .catch(() => {
-      showError('Ошибочка, мистер!пробуй дальше!!!');
-    });
+    // .catch(() => {
+    //   showError('Ошибочка, мистер!пробуй дальше!!!');
+    // });
 };
 
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://22.javascript.pages.academy/keksobooking/data',
+    'https://22.javascript.pages.academy/keksobooking',
     {
       method: 'POST',
       body,
@@ -28,9 +27,9 @@ const sendData = (onSuccess, onFail, body) => {
         showError('Возникла ошибка. Поропуйте ещё раз');
       }
     })
-    .catch(() => {
-      showError('Возникла ошибка. Поропуйте ещё раз');
-    });
+    // .catch(() => {
+    //   showError('Возникла ошибка. Поропуйте ещё раз');
+    // });
 };
 
 export {getData, sendData};

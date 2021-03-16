@@ -1,12 +1,12 @@
 import {getRandomNumber, getRandomPartNumber, getRandomLength} from './util.js';
 // import {avatar, TYPE, TIME, FEATURES, PHOTOS, TITLE, similarObjectsNear} from '.dialog.js';
 
-const avatars = ['01', '02', '03', '04', '05', '06', '07', '08'];
+const Avatars = ['01', '02', '03', '04', '05', '06', '07', '08'];
 const TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 const TITLES = ['Вашему вниманию представляю квартиру!', 'Отличные апартаменты почти в самом центре!', 'Уютная квартира неподалёку от парка с детской площадкой'];
-const similarObjectsNear = 10;
+const SIMILAR_OBJECTS_NEAR = 10;
 const TYPES = {flat: 'Квартира', house: 'Дом', bungalow: 'Бунгало', palace: 'Дворец'};
 const DESCRIPTION = ['Чисто, светло, свежий ремонт, въезжай и живи!', 'Роскошней дворца в Геленжике', 'Просторно светло, можно с домашним животным'];
 
@@ -19,7 +19,7 @@ const addObjects = () => {
 
   return {
     author: {
-      avatar: './img/avatars/user' + avatars[getRandomNumber(0, avatars.length - 1)] + '.png',
+      avatar: './img/avatars/user' + Avatars[getRandomNumber(0, Avatars.length - 1)] + '.png',
     },
     offer: {
       title: getRandomItem(TITLES),
@@ -40,6 +40,6 @@ const addObjects = () => {
   };
 };
 
-const similarObjects = new Array(similarObjectsNear).fill(null).map(() => addObjects());
+const similarObjects = new Array(SIMILAR_OBJECTS_NEAR).fill(null).map(() => addObjects());
 
 export{similarObjects};

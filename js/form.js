@@ -141,11 +141,6 @@ validateTime();
 
 address.readOnly = true;
 
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  adForm.reset();
-  resetMap();
-});
 
 // Успешное создание формы
 
@@ -204,13 +199,19 @@ const openErrorPopup = function () {
   document.querySelector('main').appendChild(errorMessage);
 };
 
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  resetMap();
+});
+
 const setFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     sendData(
-      opensuccessPopup(),
-      openErrorPopup(),
+      opensuccessPopup,
+      openErrorPopup,
       // () => onSuccess(),
       // () => showError(),
       new FormData(evt.target),

@@ -4,14 +4,14 @@ import './map.js';
 import './form.js';
 import './another-card.js';
 import './api.js';
-import {createCard} from './another-card.js';
+// import {createCard} from './another-card.js';
 import {formDisable, setFormSubmit} from './form.js';
-import {getData} from './api.js';
+// import {getData} from './api.js';
 
 
-getData((cards) => {
-  createCard(cards);
-});
+// getData((cards) => {
+//   // createCard(card);
+// });
 
 setFormSubmit(formDisable);
 

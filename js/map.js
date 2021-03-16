@@ -52,6 +52,7 @@ const getMainMarker = function () {
 
 getMainMarker();
 
+address.value = MAIN_CORDINATES.lat.toFixed(5) + ', ' + MAIN_CORDINATES.lng.toFixed(5);
 
 const ponyPinIcon = L.icon({
   iconUrl: './img/pin.svg',
@@ -86,7 +87,7 @@ getData((cards) => {
 
 const resetMap = function () {
   mainPinMarker.setLatLng(MAIN_CORDINATES);
-  getMainMarker();
+  // getMainMarker();
 };
 
 export {resetMap};

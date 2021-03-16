@@ -6,9 +6,9 @@ const cardTemplate = document.querySelector('#card').content.querySelector('.pop
 const hideEmpty = (field, element) => field ? element.textContent = field : element.classList.add('hidden');
 
 
-const createCard = (createSimilar) => {
+const createCard = ({offer,author}) => {
 
-  createSimilar.forEach(({offer,author}) => {
+
     const newElement = cardTemplate.cloneNode(true);
 
     hideEmpty(offer.title, newElement.querySelector('.popup__title'));
@@ -52,7 +52,7 @@ const createCard = (createSimilar) => {
 
 
     return newElement;
-  });
+
 };
 
 export {createCard};
