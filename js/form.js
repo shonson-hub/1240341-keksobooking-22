@@ -1,3 +1,8 @@
+import {sendData} from './api.js';
+// import {showError} from './show-error-block.js';
+import {resetMap} from './map.js';
+import {isEscEvent} from './util.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
@@ -12,7 +17,7 @@ const timeOut = adForm.querySelector('#timeout');
 const rooms = adForm.querySelector('#room_number');
 const guests = adForm.querySelector('#capacity');
 const address = adForm.querySelector('#address');
-
+const resetButton = document.querySelector('.ad-form__reset');
 
 const formDisable = function () {
   adForm.classList.add('ad-form--disabled');
@@ -136,4 +141,84 @@ validateTime();
 
 address.readOnly = true;
 
-export {formDisable, formEnable, checkSeats};
+
+// Успешное создание формы
+
+const onSuccessPopupEsc = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    closeSuccessPopup();
+  }
+};
+
+const closeSuccessPopup = function () {
+  const successPopup = document.querySelector('.success');
+
+  document.addEventListener('keydown', onSuccessPopupEsc);
+  document.removeEventListener('click', successPopup);
+  successPopup.remove();
+};
+
+const opensuccessPopup = function () {
+  const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+
+  document.addEventListener('keydown', onSuccessPopupEsc);
+  document.addEventListener('click', closeSuccessPopup);
+  document.querySelector('main').appendChild(successMessage);
+};
+
+// Ошибка создания формы
+
+const onErrorEscPopup = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    closeErrorPopup();
+  }
+};
+
+const closeErrorPopupButton = (evt) => {
+  evt.preventDefault();
+  closeErrorPopup();
+};
+
+const closeErrorPopup = function () {
+  const errorPopup = document.querySelector('.error');
+  const errorButton = document.querySelector('.error__button');
+
+  errorButton.removeEventListener('click', closeErrorPopupButton);
+  document.removeEventListener('keydown', onErrorEscPopup);
+  document.removeEventListener('click', errorPopup);
+  errorPopup.remove();
+};
+
+const openErrorPopup = function () {
+  const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+
+  document.addEventListener('keydown',onErrorEscPopup);
+  document.addEventListener('click', closeErrorPopup);
+  document.querySelector('main').appendChild(errorMessage);
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  resetMap();
+});
+
+const setFormSubmit = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      opensuccessPopup,
+      openErrorPopup,
+      // () => onSuccess(),
+      // () => showError(),
+      new FormData(evt.target),
+    )
+  });
+};
+
+setFormSubmit();
+
+export {formDisable, formEnable, checkSeats, setFormSubmit};

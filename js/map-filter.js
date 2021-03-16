@@ -17,3 +17,5 @@ const formEnable = function () {
 };
 
 formDisable();
+
+export{formDisable, formEnable};

@@ -31,4 +31,8 @@ const getRandomLength = function (array) {
   return randLen;
 };
 
-export {getRandomNumber, getRandomPartNumber, getRandomLength};
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+export {getRandomNumber, getRandomPartNumber, getRandomLength, isEscEvent};
