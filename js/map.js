@@ -60,7 +60,7 @@ const ponyPinIcon = L.icon({
 });
 
 getData((cards) => {
-  console.log(cards);
+  // console.log(cards);
   cards.forEach((card) => {
 
     const marker = L.marker(
@@ -76,7 +76,7 @@ getData((cards) => {
     marker
       .addTo(map)
       .bindPopup(
-        cards,
+        createCard(card),
         {
           keepInView: true,
         },
@@ -86,6 +86,7 @@ getData((cards) => {
 
 const resetMap = function () {
   mainPinMarker.setLatLng(MAIN_CORDINATES);
+  getMainMarker();
 };
 
 export {resetMap};
