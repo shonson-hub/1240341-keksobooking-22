@@ -1,5 +1,4 @@
 import {sendData} from './api.js';
-// import {showError} from './show-error-block.js';
 import {resetMap} from './map.js';
 import {isEscEvent} from './util.js';
 
@@ -37,13 +36,26 @@ const formEnable = function () {
 
 formDisable();
 
-const validateSeats = ['1', '2', '3', '0'];
+// Тип => цена
+
+const loadRoomsValidation = function () {
+  document.addEventListener('DOMContentLoaded', () => {
+    for (let i = 0; i < guests.children.length; i++) {
+      guests.children[i].setAttribute('disabled', 'disabled');
+    }
+    guests.children[guests.children.length - 2].removeAttribute('disabled');
+    guests.children[guests.children.length - 2].setAttribute('selected', 'selected');
+
+  });
+};
+
+loadRoomsValidation();
 
 
 const checkSeats = () => {
+
   rooms.addEventListener('change', () => {
     if (rooms.value === '1') {
-      guests.value = validateSeats[0];
       for (let i = 0; i < guests.children.length; i++) {
         guests.children[i].setAttribute('disabled', 'disabled');
       }
@@ -93,10 +105,6 @@ type.addEventListener('change', function () {
   }
 });
 
-
-// Дисаблим форму импортом из утиля
-
-
 // Валидируем заголовок
 
 title.addEventListener('input', () => {
@@ -113,7 +121,7 @@ title.addEventListener('input', () => {
   title.reportValidity();
 });
 
-// Валидируем цену
+// Валидируем цену ПРИ ПЕРВОЙ ЗАГРУЗКЕ СТРАНИЦЫ ЧТО  ДЕЛАТЬ С ЦЕНОЙ И ЧТО ДЕЛАТЬ ЕСЛИ ОТПРАВЛЯЕТСЯ ФОРМА С НЕВЕРНОЙ ЦЕНОЙ
 
 price.addEventListener('input', function () {
   const valueLength = price.value.length;
@@ -126,9 +134,6 @@ price.addEventListener('input', function () {
 
   price.reportValidity();
 });
-
-// Тип => цена
-
 
 // время В => время ИЗ
 
@@ -158,13 +163,17 @@ const closeSuccessPopup = function () {
   document.removeEventListener('click', successPopup);
   successPopup.remove();
 };
+// переименовать на попонятнее это и ошибку
 
-const opensuccessPopup = function () {
+const finishSuccessPostPopup = function () {
   const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 
   document.addEventListener('keydown', onSuccessPopupEsc);
   document.addEventListener('click', closeSuccessPopup);
   document.querySelector('main').appendChild(successMessage);
+  adForm.reset();
+  resetMap();
+
 };
 
 // Ошибка создания формы
@@ -191,7 +200,7 @@ const closeErrorPopup = function () {
   errorPopup.remove();
 };
 
-const openErrorPopup = function () {
+const tellsErrorPostPopup = function () {
   const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
 
   document.addEventListener('keydown',onErrorEscPopup);
@@ -210,15 +219,11 @@ const setFormSubmit = () => {
     evt.preventDefault();
 
     sendData(
-      opensuccessPopup,
-      openErrorPopup,
-      // () => onSuccess(),
-      // () => showError(),
+      finishSuccessPostPopup,
+      tellsErrorPostPopup,
       new FormData(evt.target),
-    )
+    );
   });
 };
 
-setFormSubmit();
-
-export {formDisable, formEnable, checkSeats, setFormSubmit};
+export {formDisable, formEnable, checkSeats, setFormSubmit, loadRoomsValidation, tellsErrorPostPopup};

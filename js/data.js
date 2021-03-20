@@ -1,5 +1,4 @@
 import {getRandomNumber, getRandomPartNumber, getRandomLength} from './util.js';
-// import {avatar, TYPE, TIME, FEATURES, PHOTOS, TITLE, similarObjectsNear} from '.dialog.js';
 
 const Avatars = ['01', '02', '03', '04', '05', '06', '07', '08'];
 const TIME = ['12:00', '13:00', '14:00'];

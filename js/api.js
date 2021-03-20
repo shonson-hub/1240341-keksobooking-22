@@ -2,13 +2,19 @@ import {showError} from './show-error-block.js';
 
 const getData = (onSuccess) => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
-    .then((json) => {
-      onSuccess(json);
+    .then((response) => {
+      if (response.ok) {
+        response.json()
+          .then((json) => {
+            onSuccess(json);
+          })
+      } else {
+        showError('Ошибочка, мистер!пробуй дальше!!!');
+      }
     })
-    // .catch(() => {
-    //   showError('Ошибочка, мистер!пробуй дальше!!!');
-    // });
+    .catch(() => {
+      showError('Ошибочка, мистер!пробуй дальше!!!');
+    });
 };
 
 
@@ -23,13 +29,14 @@ const sendData = (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-      } else {
-        showError('Возникла ошибка. Поропуйте ещё раз');
+      }
+      else {
+        onFail();
       }
     })
-    // .catch(() => {
-    //   showError('Возникла ошибка. Поропуйте ещё раз');
-    // });
+    .catch(() => {
+      onFail();
+    });
 };
 
 export {getData, sendData};
