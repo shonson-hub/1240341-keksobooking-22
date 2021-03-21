@@ -1,4 +1,5 @@
 const TYPES_HOUSING = {flat: 'Квартира', house: 'Дом', bungalow: 'Бунгало', palace: 'Дворец'};
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const createPhotoElement = function (Array, element) {
   const photoList = element.querySelector('.popup__photos');
@@ -21,7 +22,6 @@ const createPhotoElement = function (Array, element) {
   }
 
   return photoList;
-
 };
 
 const generateFeaturesElement = function (Array, element) {
@@ -44,7 +44,6 @@ const generateFeaturesElement = function (Array, element) {
   return featureList;
 };
 
-const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const hideEmpty = (field, element) => field ? element.textContent = field : element.classList.add('hidden');
 

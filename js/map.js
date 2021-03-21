@@ -48,7 +48,7 @@ mainPinMarker.addTo(map);
 const address = document.querySelector('#address');
 
 const getMainMarker = function () {
-  mainPinMarker.on('moveend', (evt) => {
+  mainPinMarker.on('move', (evt) => {
     const getCoord = evt.target.getLatLng();
     address.value = getCoord.lat.toFixed(5) + ', ' + getCoord.lng.toFixed(5);
   });
@@ -87,7 +87,6 @@ const renderMarker = function (cards) {
   const elements = [];
   cards
     .some((card) => {
-      //функции отвечающие за фильтрацию
       if (elements.length === 10) {
         return true;
       }
@@ -96,6 +95,7 @@ const renderMarker = function (cards) {
         return false;
       }
     });
+
   elements.forEach((card) => {
 
     const marker = L.marker(
@@ -117,7 +117,6 @@ const renderMarker = function (cards) {
         },
       );
     delElements.push(marker);
-
   })
 };
 

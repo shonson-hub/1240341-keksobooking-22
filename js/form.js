@@ -108,12 +108,12 @@ type.addEventListener('change', function () {
 // Валидируем заголовок
 
 title.addEventListener('input', () => {
-  const valueLength = title.value.lengt;
+  const titleLength = title.value.length;
 
-  if (valueLength < MIN_TITLE_LENGTH) {
-    title.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
-  } else if (valueLength > MAX_TITLE_LENGTH) {
-    title.setCustomValidity('Удалите ' + (valueLength - MAX_TITLE_LENGTH) + ' симв.');
+  if (titleLength < MIN_TITLE_LENGTH) {
+    title.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - titleLength) + ' симв.');
+  } else if (titleLength > MAX_TITLE_LENGTH) {
+    title.setCustomValidity('Удалите ' + (titleLength - MAX_TITLE_LENGTH) + ' симв.');
   } else {
     title.setCustomValidity('');
   }
@@ -121,15 +121,15 @@ title.addEventListener('input', () => {
   title.reportValidity();
 });
 
-// Валидируем цену ПРИ ПЕРВОЙ ЗАГРУЗКЕ СТРАНИЦЫ ЧТО  ДЕЛАТЬ С ЦЕНОЙ И ЧТО ДЕЛАТЬ ЕСЛИ ОТПРАВЛЯЕТСЯ ФОРМА С НЕВЕРНОЙ ЦЕНОЙ
+// Валидируем цену
 
 price.addEventListener('input', function () {
-  const valueLength = price.value.length;
+  const priceLength = price.placeholder;
 
-  if (valueLength > MAX_PRICE) {
-    price.setCustomValidity('Цена не должна быть больше ' + MAX_PRICE)
+  if (priceLength > MAX_PRICE) {
+    price.setCustomValidity('Цена не должна быть больше ' + MAX_PRICE);
   } else {
-    title.setCustomValidity('');
+    price.setCustomValidity('');
   }
 
   price.reportValidity();
@@ -163,6 +163,7 @@ const closeSuccessPopup = function () {
   document.removeEventListener('click', successPopup);
   successPopup.remove();
 };
+
 // переименовать на попонятнее это и ошибку
 
 const finishSuccessPostPopup = function () {
@@ -200,7 +201,7 @@ const closeErrorPopup = function () {
   errorPopup.remove();
 };
 
-const tellsErrorPostPopup = function () {
+const showErrorPostPopup = function () {
   const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
 
   document.addEventListener('keydown',onErrorEscPopup);
@@ -220,10 +221,10 @@ const setFormSubmit = () => {
 
     sendData(
       finishSuccessPostPopup,
-      tellsErrorPostPopup,
+      showErrorPostPopup,
       new FormData(evt.target),
     );
   });
 };
 
-export {formDisable, formEnable, checkSeats, setFormSubmit, loadRoomsValidation, tellsErrorPostPopup};
+export {formDisable, formEnable, checkSeats, setFormSubmit, loadRoomsValidation, showErrorPostPopup};

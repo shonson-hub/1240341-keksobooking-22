@@ -15,6 +15,7 @@ const filterEnable = function () {
     fieldset.disabled = false;
   }
 };
+
 filterDisable();
 
 
@@ -22,7 +23,6 @@ const setTypeClick = (cb) => {
   mapFilters.addEventListener('change', () => {
     cb();
   });
-
 };
 
 const houseType = function (card) {
