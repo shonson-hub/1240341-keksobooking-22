@@ -10,7 +10,6 @@ const getRandomNumber = function (firstNumber, lastNumber) {
   return Math.round(rand);
 };
 
-
 // Функция случайного числа с точкой
 
 const getRandomPartNumber = function (firstNumber, lastNumber, partNumber) {

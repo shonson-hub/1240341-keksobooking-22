@@ -1,5 +1,4 @@
 import {sendData} from './api.js';
-// import {showError} from './show-error-block.js';
 import {resetMap} from './map.js';
 import {isEscEvent} from './util.js';
 
@@ -37,13 +36,26 @@ const formEnable = function () {
 
 formDisable();
 
-const validateSeats = ['1', '2', '3', '0'];
+// Тип => цена
+
+const loadRoomsValidation = function () {
+  document.addEventListener('DOMContentLoaded', () => {
+    for (let i = 0; i < guests.children.length; i++) {
+      guests.children[i].setAttribute('disabled', 'disabled');
+    }
+    guests.children[guests.children.length - 2].removeAttribute('disabled');
+    guests.children[guests.children.length - 2].setAttribute('selected', 'selected');
+
+  });
+};
+
+loadRoomsValidation();
 
 
 const checkSeats = () => {
+
   rooms.addEventListener('change', () => {
     if (rooms.value === '1') {
-      guests.value = validateSeats[0];
       for (let i = 0; i < guests.children.length; i++) {
         guests.children[i].setAttribute('disabled', 'disabled');
       }
@@ -93,19 +105,15 @@ type.addEventListener('change', function () {
   }
 });
 
-
-// Дисаблим форму импортом из утиля
-
-
 // Валидируем заголовок
 
 title.addEventListener('input', () => {
-  const valueLength = title.value.lengt;
+  const titleLength = title.value.length;
 
-  if (valueLength < MIN_TITLE_LENGTH) {
-    title.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
-  } else if (valueLength > MAX_TITLE_LENGTH) {
-    title.setCustomValidity('Удалите ' + (valueLength - MAX_TITLE_LENGTH) + ' симв.');
+  if (titleLength < MIN_TITLE_LENGTH) {
+    title.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - titleLength) + ' симв.');
+  } else if (titleLength > MAX_TITLE_LENGTH) {
+    title.setCustomValidity('Удалите ' + (titleLength - MAX_TITLE_LENGTH) + ' симв.');
   } else {
     title.setCustomValidity('');
   }
@@ -116,19 +124,16 @@ title.addEventListener('input', () => {
 // Валидируем цену
 
 price.addEventListener('input', function () {
-  const valueLength = price.value.length;
+  const priceLength = price.placeholder;
 
-  if (valueLength > MAX_PRICE) {
-    price.setCustomValidity('Цена не должна быть больше ' + MAX_PRICE)
+  if (priceLength > MAX_PRICE) {
+    price.setCustomValidity('Цена не должна быть больше ' + MAX_PRICE);
   } else {
-    title.setCustomValidity('');
+    price.setCustomValidity('');
   }
 
   price.reportValidity();
 });
-
-// Тип => цена
-
 
 // время В => время ИЗ
 
@@ -159,12 +164,17 @@ const closeSuccessPopup = function () {
   successPopup.remove();
 };
 
-const opensuccessPopup = function () {
+// переименовать на попонятнее это и ошибку
+
+const finishSuccessPostPopup = function () {
   const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 
   document.addEventListener('keydown', onSuccessPopupEsc);
   document.addEventListener('click', closeSuccessPopup);
   document.querySelector('main').appendChild(successMessage);
+  adForm.reset();
+  resetMap();
+
 };
 
 // Ошибка создания формы
@@ -191,7 +201,7 @@ const closeErrorPopup = function () {
   errorPopup.remove();
 };
 
-const openErrorPopup = function () {
+const showErrorPostPopup = function () {
   const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
 
   document.addEventListener('keydown',onErrorEscPopup);
@@ -210,15 +220,11 @@ const setFormSubmit = () => {
     evt.preventDefault();
 
     sendData(
-      opensuccessPopup,
-      openErrorPopup,
-      // () => onSuccess(),
-      // () => showError(),
+      finishSuccessPostPopup,
+      showErrorPostPopup,
       new FormData(evt.target),
-    )
+    );
   });
 };
 
-setFormSubmit();
-
-export {formDisable, formEnable, checkSeats, setFormSubmit};
+export {formDisable, formEnable, checkSeats, setFormSubmit, loadRoomsValidation, showErrorPostPopup};

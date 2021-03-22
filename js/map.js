@@ -1,18 +1,21 @@
-import {createCard} from './another-card.js';
+import {createCard} from './card.js';
 import {formEnable} from './form.js';
 import {getData} from './api.js';
-
+import {filterEnable, houseType, houseRoom, housePrice, houseGuests, setTypeClick, filterFeatures} from './map-filter.js';
 
 const MAIN_CORDINATES = {
   lat: 35.6895000,
   lng: 139.6917100,
 };
 
+const RERENDER_DELAY = 500;
+
 const ZOOM = 10;
 
 const map = L.map('map-canvas')
   .on('load', () => {
     formEnable();
+    filterEnable();
   })
   .setView(MAIN_CORDINATES, ZOOM);
 
@@ -39,12 +42,13 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
+
 mainPinMarker.addTo(map);
 
 const address = document.querySelector('#address');
 
 const getMainMarker = function () {
-  mainPinMarker.on('moveend', (evt) => {
+  mainPinMarker.on('move', (evt) => {
     const getCoord = evt.target.getLatLng();
     address.value = getCoord.lat.toFixed(5) + ', ' + getCoord.lng.toFixed(5);
   });
@@ -52,7 +56,11 @@ const getMainMarker = function () {
 
 getMainMarker();
 
-address.value = MAIN_CORDINATES.lat.toFixed(5) + ', ' + MAIN_CORDINATES.lng.toFixed(5);
+const getMarkCoord = function () {
+  address.value = MAIN_CORDINATES.lat.toFixed(5) + ', ' + MAIN_CORDINATES.lng.toFixed(5);
+};
+
+getMarkCoord();
 
 const ponyPinIcon = L.icon({
   iconUrl: './img/pin.svg',
@@ -60,9 +68,35 @@ const ponyPinIcon = L.icon({
   iconAnchor: [20,40],
 });
 
+let delElements = [];
+
+const resetMarkers = function () {
+  delElements.forEach((marker) => {
+    map.removeLayer(marker);
+  })
+};
+
 getData((cards) => {
-  // console.log(cards);
-  cards.forEach((card) => {
+  renderMarker(cards);
+  setTypeClick(_.throttle(() => renderMarker(cards), RERENDER_DELAY));
+});
+
+const renderMarker = function (cards) {
+  resetMarkers();
+  delElements = [];
+  const elements = [];
+  cards
+    .some((card) => {
+      if (elements.length === 10) {
+        return true;
+      }
+      if (houseType(card) && housePrice(card) && houseRoom(card) && houseGuests(card) && filterFeatures(card)) {
+        elements.push(card);
+        return false;
+      }
+    });
+
+  elements.forEach((card) => {
 
     const marker = L.marker(
       {
@@ -82,12 +116,13 @@ getData((cards) => {
           keepInView: true,
         },
       );
+    delElements.push(marker);
   })
-});
+};
 
 const resetMap = function () {
   mainPinMarker.setLatLng(MAIN_CORDINATES);
-  // getMainMarker();
+  getMarkCoord();
 };
 
 export {resetMap};

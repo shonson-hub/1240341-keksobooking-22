@@ -1,4 +1,4 @@
-const alertShowTime = 10000;
+const ALERT_SHOW_TIME = 10000;
 
 const showError = function (message)  {
   const errorContainer = document.createElement('div');
@@ -19,7 +19,7 @@ const showError = function (message)  {
 
   setTimeout(() => {
     errorContainer.remove();
-  }, alertShowTime);
+  }, ALERT_SHOW_TIME);
 };
 
 export{showError};
