@@ -48,14 +48,8 @@ const houseRoom = function (card) {
 
 const housePrice = function (card) {
   const housingPrice = document.querySelector('#housing-price');
-  if (housingPrice.value === 'any')
+  if (housingPrice.value === 'any' || housingPrice.value === 'middle' && 10000 < card.offer.price && 50000 >= card.offer.price || housingPrice.value === 'low' && 10000 >= card.offer.price)
   {
-    return true;
-  }
-  if (housingPrice.value === 'middle' && 10000 < card.offer.price && 50000 >= card.offer.price) {
-    return true;
-  }
-  if (housingPrice.value === 'low' && 10000 >= card.offer.price) {
     return true;
   }
   if (housingPrice.value === 'high' && 50000 <= card.offer.price) {

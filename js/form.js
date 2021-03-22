@@ -43,14 +43,23 @@ const loadRoomsValidation = function () {
     for (let i = 0; i < guests.children.length; i++) {
       guests.children[i].setAttribute('disabled', 'disabled');
     }
-    guests.children[guests.children.length - 2].removeAttribute('disabled');
-    guests.children[guests.children.length - 2].setAttribute('selected', 'selected');
-
+    document.querySelector('#capacity').value = '1';
+    // guestOne.removeAttribute('disabled');
+    // guests.children[guests.children.length - 2].removeAttribute('disabled');
+    // guests.children[guests.children.length - 2].setAttribute('selected', 'selected');
   });
 };
 
 loadRoomsValidation();
 
+const loadPricePlaceholder = function () {
+  if (type.value === 'flat') {
+    price.placeholder = '1000';
+    price.min = 1000;
+  }
+};
+
+loadPricePlaceholder();
 
 const checkSeats = () => {
 
@@ -107,8 +116,8 @@ type.addEventListener('change', function () {
 
 // Валидируем заголовок
 
-title.addEventListener('input', () => {
-  const titleLength = title.value.length;
+title.addEventListener('input', (evt) => {
+  const titleLength = evt.target.value.length;
 
   if (titleLength < MIN_TITLE_LENGTH) {
     title.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - titleLength) + ' симв.');
@@ -123,8 +132,8 @@ title.addEventListener('input', () => {
 
 // Валидируем цену
 
-price.addEventListener('input', function () {
-  const priceLength = price.placeholder;
+price.addEventListener('input', function (evt) {
+  const priceLength = evt.target.value;
 
   if (priceLength > MAX_PRICE) {
     price.setCustomValidity('Цена не должна быть больше ' + MAX_PRICE);
