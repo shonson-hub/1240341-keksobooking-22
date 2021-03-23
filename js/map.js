@@ -48,7 +48,7 @@ mainPinMarker.addTo(map);
 const address = document.querySelector('#address');
 
 const getMainMarker = function () {
-  mainPinMarker.on('move', (evt) => {
+  mainPinMarker.on('moveend', (evt) => {
     const getCoord = evt.target.getLatLng();
     address.value = getCoord.lat.toFixed(5) + ', ' + getCoord.lng.toFixed(5);
   });
