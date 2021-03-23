@@ -1,12 +1,18 @@
-const TYPES_HOUSING = {flat: 'Квартира', house: 'Дом', bungalow: 'Бунгало', palace: 'Дворец'};
+const TYPES_HOUSING = {
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  palace: 'Дворец',
+};
+
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const createPhotoElement = function (Array, element) {
-  const photoList = element.querySelector('.popup__photos');
+const createPhotoElement = function (photos, template) {
+  const photoList = template.querySelector('.popup__photos');
   photoList.innerHTML = '';
 
-  if (Array.length) {
-    Array.forEach((item) => {
+  if (photos.length) {
+    photos.forEach((item) => {
       const newPhoto = document.createElement('img');
       newPhoto.setAttribute('height', '40');
       newPhoto.setAttribute('width', '45');
@@ -15,24 +21,18 @@ const createPhotoElement = function (Array, element) {
       newPhoto.alt = 'Фотография жилья';
       photoList.appendChild(newPhoto);
     });
-  }
-
-  else{
+  } else {
     photoList.classList.add('hidden');
   }
-
   return photoList;
 };
 
-const generateFeaturesElement = function (Array, element) {
+const generateFeaturesElement = function (features, template) {
 
-  const featureList = element.querySelector('.popup__features');
-  while (featureList.firstChild) {
-    featureList.removeChild(featureList.firstChild);
-  }
-
-  if (Array.length) {
-    Array.forEach((item) => {
+  const featureList = template.querySelector('.popup__features');
+  featureList.innerHTML = '';
+  if (features.length) {
+    features.forEach((item) => {
       const featureItem = document.createElement('li');
       featureItem.className = 'popup__feature popup__feature--' + item;
       featureList.appendChild(featureItem);
@@ -40,7 +40,6 @@ const generateFeaturesElement = function (Array, element) {
   } else {
     featureList.classList.add('hidden')
   }
-
   return featureList;
 };
 
