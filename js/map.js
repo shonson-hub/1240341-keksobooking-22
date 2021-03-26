@@ -8,8 +8,8 @@ const MAIN_CORDINATES = {
   lng: 139.6917100,
 };
 
+const CARDS_LENGTH = 10;
 const RERENDER_DELAY = 500;
-
 const ZOOM = 10;
 
 const map = L.map('map-canvas')
@@ -76,10 +76,14 @@ const resetMarkers = function () {
   })
 };
 
-getData((cards) => {
-  renderMarker(cards);
-  setTypeClick(_.throttle(() => renderMarker(cards), RERENDER_DELAY));
-});
+const renderData = function () {
+  getData((cards) => {
+    renderMarker(cards);
+    setTypeClick(_.throttle(() => renderMarker(cards), RERENDER_DELAY));
+  });
+};
+
+renderData();
 
 const renderMarker = function (cards) {
   resetMarkers();
@@ -87,7 +91,7 @@ const renderMarker = function (cards) {
   const elements = [];
   cards
     .some((card) => {
-      if (elements.length === 10) {
+      if (elements.length === CARDS_LENGTH) {
         return true;
       }
       if (houseType(card) && housePrice(card) && houseRoom(card) && houseGuests(card) && filterFeatures(card)) {
@@ -125,4 +129,4 @@ const resetMap = function () {
   getMarkCoord();
 };
 
-export {resetMap};
+export {resetMap, renderData};

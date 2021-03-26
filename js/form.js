@@ -1,11 +1,28 @@
-import {sendData} from './api.js';
-import {resetMap} from './map.js';
-import {isEscEvent} from './util.js';
+import {
+  sendData
+} from './api.js';
+import {
+  resetMap,
+  renderData
+} from './map.js';
+import {
+  isEscEvent
+} from './util.js';
+import {
+  resetFilter
+} from './map-filter.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
-
+const TYPE_PRICE = ['1000', '5000', '10000'];
+const MAX_ROOMS = ['1', '2', '3', '100'];
+const GUESTS_CHECKS = {
+  1: '1',
+  2: '2',
+  3: '3',
+  100: 0,
+};
 
 const adForm = document.querySelector('.ad-form');
 const title = adForm.querySelector('#title');
@@ -17,6 +34,7 @@ const rooms = adForm.querySelector('#room_number');
 const guests = adForm.querySelector('#capacity');
 const address = adForm.querySelector('#address');
 const resetButton = document.querySelector('.ad-form__reset');
+const adformTime = adForm.querySelector('.ad-form__element--time');
 
 const formDisable = function () {
   adForm.classList.add('ad-form--disabled');
@@ -38,80 +56,69 @@ formDisable();
 
 // Тип => цена
 
-const loadRoomsValidation = function () {
-  const GUEST_ONE = '1';
-  document.addEventListener('DOMContentLoaded', () => {
-    for (let i = 0; i < guests.children.length; i++) {
-      guests.children[i].setAttribute('disabled', 'disabled');
-    }
-    document.querySelector('#capacity').value = GUEST_ONE;
-  });
-};
-
-loadRoomsValidation();
-
 const loadPricePlaceholder = function () {
   if (type.value === 'flat') {
-    price.placeholder = '1000';
-    price.min = 1000;
+    price.placeholder = TYPE_PRICE[0];
+    price.min = TYPE_PRICE[0];
   }
 };
 
 loadPricePlaceholder();
 
+const validationRoomsGuests = () => {
+  for (let i = 0; i < guests.children.length; i++) {
+    guests.children[i].setAttribute('disabled', 'disabled');
+    guests.value = GUESTS_CHECKS[rooms.value];
+  }
+  switch (rooms.value) {
+    case MAX_ROOMS[0]:
+      guests.children[2].removeAttribute('disabled');
+      break;
+
+    case MAX_ROOMS[3]:
+      guests.children[3].removeAttribute('disabled');
+      break;
+
+    case MAX_ROOMS[1]:
+      guests.children[1].removeAttribute('disabled');
+      guests.children[2].removeAttribute('disabled');
+      break;
+
+    case MAX_ROOMS[2]:
+      guests.children[0].removeAttribute('disabled');
+      guests.children[1].removeAttribute('disabled');
+      guests.children[2].removeAttribute('disabled');
+      break;
+  }
+
+
+};
+
 const checkSeats = () => {
-
-  rooms.addEventListener('change', () => {
-    for (let i = 0; i < guests.children.length; i++) {
-      guests.children[i].setAttribute('disabled', 'disabled');
-    }
-    switch (rooms.value) {
-      case '1':
-        guests.children[2].removeAttribute('disabled');
-        guests.children[2].setAttribute('selected', 'selected');
-        break;
-
-      case '100':
-        guests.children[3].removeAttribute('disabled');
-        guests.children[3].setAttribute('selected', 'selected');
-        break;
-
-      case '2':
-        guests.children[1].removeAttribute('disabled');
-        guests.children[2].removeAttribute('disabled');
-        guests.children[1].setAttribute('selected', 'selected');
-        break;
-
-      case '3':
-        guests.children[0].removeAttribute('disabled');
-        guests.children[1].removeAttribute('disabled');
-        guests.children[2].removeAttribute('disabled');
-        guests.children[0].setAttribute('selected', 'selected');
-        break;
-    }
-  });
-
-  return rooms;
+  rooms.addEventListener('change', validationRoomsGuests);
 };
 
 checkSeats();
 
+const loadRoomsValidation = function () {
+  validationRoomsGuests();
+};
+
+loadRoomsValidation();
+
 type.addEventListener('change', function () {
   if (this.value === 'bungalow') {
-    price.placeholder = '0';
+    price.placeholder = 0;
     price.min = 0;
-  }
-  else if (this.value === 'flat') {
-    price.placeholder = '1000';
-    price.min = 1000;
-  }
-  else if (this.value === 'house') {
-    price.placeholder = '5000';
-    price.min = 5000;
-  }
-  else if (this.value === 'palace') {
-    price.placeholder = '10000';
-    price.min = 10000;
+  } else if (this.value === 'flat') {
+    price.placeholder = TYPE_PRICE[0];
+    price.min = TYPE_PRICE[0];
+  } else if (this.value === 'house') {
+    price.placeholder = TYPE_PRICE[1];
+    price.min = TYPE_PRICE[1];
+  } else if (this.value === 'palace') {
+    price.placeholder = TYPE_PRICE[2];
+    price.min = TYPE_PRICE[2];
   }
 });
 
@@ -147,10 +154,24 @@ price.addEventListener('input', function (evt) {
 
 // время В => время ИЗ
 
-const validateTime = () => {
-  timeIn.addEventListener('change', () => timeOut.value = timeIn.value);
-  timeOut.addEventListener('change', () => timeIn.value = timeOut.value);
+const setTimeIn = () => {
+  timeIn.value = timeOut.value;
 };
+
+const setTimeOut = () => {
+  timeOut.value = timeIn.value;
+};
+
+const validateTime = () => {
+  adformTime.addEventListener('change', (evt) => {
+    if (evt.target.id === 'timein') {
+      setTimeOut();
+    }
+    if (evt.target.id === 'timeout') {
+      setTimeIn();
+    }
+  })
+}
 
 validateTime();
 
@@ -162,16 +183,16 @@ address.readOnly = true;
 const onSuccessPopupEsc = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    closeSuccessPopup();
+    onCloseSuccessPopup();
   }
 };
 
-const closeSuccessPopup = function () {
-  const successPopup = document.querySelector('.success');
+const onCloseSuccessPopup = function () {
+  const onSuccessPopup = document.querySelector('.success');
 
-  document.addEventListener('keydown', onSuccessPopupEsc);
-  document.removeEventListener('click', successPopup);
-  successPopup.remove();
+  onSuccessPopup.addEventListener('keydown', onSuccessPopupEsc);
+  document.removeEventListener('click', onCloseSuccessPopup);
+  onSuccessPopup.remove();
 };
 
 // переименовать на попонятнее это и ошибку
@@ -180,11 +201,13 @@ const finishSuccessPostPopup = function () {
   const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 
   document.addEventListener('keydown', onSuccessPopupEsc);
-  document.addEventListener('click', closeSuccessPopup);
+  document.addEventListener('click', onCloseSuccessPopup);
   document.querySelector('main').appendChild(successMessage);
   adForm.reset();
   resetMap();
-
+  loadRoomsValidation();
+  resetFilter();
+  renderData();
 };
 
 // Ошибка создания формы
@@ -192,37 +215,45 @@ const finishSuccessPostPopup = function () {
 const onErrorEscPopup = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    closeErrorPopup();
+    onCloseErrorPopup();
   }
 };
 
 const closeErrorPopupButton = (evt) => {
   evt.preventDefault();
-  closeErrorPopup();
+  onCloseErrorPopup();
 };
 
-const closeErrorPopup = function () {
-  const errorPopup = document.querySelector('.error');
-  const errorButton = document.querySelector('.error__button');
+const onCloseErrorPopup = function () {
+  const onErrorPopup = document.querySelector('.error');
+  const errorButton = onErrorPopup.querySelector('.error__button');
 
   errorButton.removeEventListener('click', closeErrorPopupButton);
   document.removeEventListener('keydown', onErrorEscPopup);
-  document.removeEventListener('click', errorPopup);
-  errorPopup.remove();
+  document.removeEventListener('click', onCloseErrorPopup);
+  onErrorPopup.remove();
 };
 
 const showErrorPostPopup = function () {
   const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
 
-  document.addEventListener('keydown',onErrorEscPopup);
-  document.addEventListener('click', closeErrorPopup);
+  document.addEventListener('keydown', onErrorEscPopup);
+  document.addEventListener('click', onCloseErrorPopup);
   document.querySelector('main').appendChild(errorMessage);
+  resetMap();
+  loadRoomsValidation();
+  resetFilter();
+  renderData();
 };
 
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   adForm.reset();
   resetMap();
+  loadRoomsValidation();
+  loadPricePlaceholder();
+  resetFilter();
+  renderData();
 });
 
 const setFormSubmit = () => {
@@ -237,4 +268,10 @@ const setFormSubmit = () => {
   });
 };
 
-export {formDisable, formEnable, checkSeats, setFormSubmit, loadRoomsValidation, showErrorPostPopup};
+export {
+  formDisable,
+  formEnable,
+  setFormSubmit,
+  checkSeats,
+  showErrorPostPopup
+};
